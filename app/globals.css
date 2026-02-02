@@ -1,0 +1,227 @@
+:root {
+  --primary: #667eea;
+  --primary-dark: #764ba2;
+  --secondary: #f093fb;
+  --secondary-dark: #f5576c;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9ff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  min-height: 100vh;
+  color: var(--text-primary);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--bg-primary);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px var(--shadow);
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+  color: white;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  .btn {
+    padding: 14px 24px;
+    font-size: 16px;
+    min-height: 48px;
+    /* Better touch target */
+    width: 100%;
+    justify-content: center;
+  }
+
+  .input {
+    font-size: 16px;
+    /* Prevent zoom on iOS */
+    min-height: 48px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 48px;
+  }
+
+  .input {
+    min-height: 48px;
+  }
+
+  /* Larger tap targets */
+  a,
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

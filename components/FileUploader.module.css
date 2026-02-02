@@ -1,0 +1,76 @@
+.container {
+    width: 100%;
+}
+
+.dropzone {
+    border: 3px dashed var(--border);
+    border-radius: 15px;
+    padding: 50px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: var(--bg-secondary);
+    cursor: pointer;
+}
+
+.dropzone:hover {
+    border-color: var(--primary);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.dropzone.dragging {
+    border-color: var(--primary);
+    background: rgba(102, 126, 234, 0.1);
+    transform: scale(1.02);
+}
+
+.icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.text {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.or {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 15px 0;
+}
+
+.formats {
+    margin-top: 15px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .dropzone {
+        padding: 40px 20px;
+    }
+
+    .icon {
+        font-size: 48px;
+    }
+
+    .text {
+        font-size: 16px;
+    }
+}
