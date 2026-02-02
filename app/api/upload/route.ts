@@ -19,8 +19,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<UploadRes
             return NextResponse.json({ success: false, error: 'ファイルが見つかりません' }, { status: 400 });
         }
 
-        // Create uploads directory
-        const uploadsDir = path.join(process.cwd(), 'uploads');
+        // Create uploads directory in /tmp (Vercel compatible)
+        const uploadsDir = path.join('/tmp', 'uploads');
         await fs.mkdir(uploadsDir, { recursive: true });
 
         // Save file

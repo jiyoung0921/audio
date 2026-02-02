@@ -67,8 +67,8 @@ export async function generateDocx(
         ],
     });
 
-    // Save to temp directory
-    const tempDir = path.join(process.cwd(), 'temp');
+    // Save to temp directory (Vercel compatible)
+    const tempDir = '/tmp';
     await fs.mkdir(tempDir, { recursive: true });
 
     const filename = `transcription_${Date.now()}.docx`;
