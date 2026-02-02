@@ -2,7 +2,11 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import { HistoryItem } from '@/types';
 
-const dbPath = path.join(process.cwd(), 'transcription.db');
+// Use /tmp for Vercel compatibility (Note: Data will not persist across deployments/cold starts)
+const dbPath = process.env.NODE_ENV === 'production'
+    ? path.join('/tmp', 'transcription.db')
+    : path.join(process.cwd(), 'transcription.db');
+
 let db: Database.Database | null = null;
 
 function getDb(): Database.Database {
