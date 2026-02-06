@@ -19,17 +19,61 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token, account }) {
+            // Initial sign in
             if (account) {
-                token.accessToken = account.access_token;
-                token.refreshToken = account.refresh_token;
-                token.expiresAt = account.expires_at;
+                return {
+                    ...token,
+                    accessToken: account.access_token,
+                    refreshToken: account.refresh_token,
+                    expiresAt: account.expires_at,
+                };
             }
+
+            // Return previous token if not expired (with 5 min buffer)
+            if (token.expiresAt && Date.now() < (token.expiresAt as number) * 1000 - 5 * 60 * 1000) {
+                return token;
+            }
+
+            // Token expired, try to refresh
+            if (token.refreshToken) {
+                try {
+                    const response = await fetch('https://oauth2.googleapis.com/token', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            client_id: process.env.GOOGLE_CLIENT_ID!,
+                            client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+                            grant_type: 'refresh_token',
+                            refresh_token: token.refreshToken as string,
+                        }),
+                    });
+
+                    const tokens = await response.json();
+
+                    if (!response.ok) {
+                        throw tokens;
+                    }
+
+                    return {
+                        ...token,
+                        accessToken: tokens.access_token,
+                        expiresAt: Math.floor(Date.now() / 1000 + tokens.expires_in),
+                        // Keep refresh token if not rotated
+                        refreshToken: tokens.refresh_token ?? token.refreshToken,
+                    };
+                } catch (error) {
+                    console.error('Error refreshing access token:', error);
+                    return { ...token, error: 'RefreshAccessTokenError' };
+                }
+            }
+
             return token;
         },
         async session({ session, token }) {
             (session as any).accessToken = token.accessToken;
             (session as any).refreshToken = token.refreshToken;
             (session as any).expiresAt = token.expiresAt;
+            (session as any).error = token.error;
             return session;
         },
     },

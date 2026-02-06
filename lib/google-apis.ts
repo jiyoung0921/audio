@@ -29,17 +29,31 @@ export async function transcribeAudio(audioFilePath: string): Promise<string> {
                     mimeType: mimeType,
                 },
             },
-            '音声の内容を日本語で文字起こししてください。句読点を適切に付けて、読みやすい形式で出力してください。',
+            `この音声ファイルに含まれる発話内容を正確に書き起こしてください。
+
+指示:
+- 音声に含まれる発話のみを出力してください
+- 句読点を適切に付けて読みやすく整形してください
+- 音声が聞き取れない場合や無音の場合は「（音声なし）」とだけ出力してください
+- このプロンプト（指示文）は絶対に出力に含めないでください
+- 余計な説明や注釈は不要です。発話内容のみを出力してください`,
         ]);
 
         const response = await result.response;
-        const transcription = response.text();
+        let transcription = response.text();
 
-        if (!transcription) {
-            throw new Error('文字起こし結果が空です');
+        if (!transcription || transcription.trim() === '') {
+            return '（音声なし）';
         }
 
-        return transcription;
+        // Filter out any accidental prompt leakage
+        if (transcription.includes('この音声ファイル') ||
+            transcription.includes('書き起こし') ||
+            transcription.includes('指示:')) {
+            return '（音声なし）';
+        }
+
+        return transcription.trim();
     } catch (error) {
         console.error('Transcription error:', error);
         throw new Error('文字起こしに失敗しました');
