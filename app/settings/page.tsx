@@ -3,6 +3,7 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { DriveFolder } from '@/types';
+import { Folder, GearSix, User } from '@/components/Icons';
 import styles from './page.module.css';
 
 export default function SettingsPage() {
@@ -19,7 +20,6 @@ export default function SettingsPage() {
     useEffect(() => {
         if (session) {
             loadFolders();
-            // Load saved folder preference from localStorage
             const savedFolderId = localStorage.getItem('selectedDriveFolderId');
             if (savedFolderId) {
                 setSelectedFolderId(savedFolderId);
@@ -42,11 +42,10 @@ export default function SettingsPage() {
                 } else {
                     setError(data.error || 'フォルダの読み込みに失敗しました');
                 }
-                console.error('Folder load error:', data.error);
             }
         } catch (error) {
             console.error('Failed to load folders:', error);
-            setError('フォルダの読み込みに失敗しました。ログアウトして再ログインしてください。');
+            setError('フォルダの読み込みに失敗しました');
         } finally {
             setLoadingFolders(false);
         }
@@ -97,8 +96,7 @@ export default function SettingsPage() {
     if (status === 'loading') {
         return (
             <div className={styles.loading}>
-                <div className="loading"></div>
-                <p>読み込み中...</p>
+                <div className="loading-spinner"></div>
             </div>
         );
     }
@@ -107,11 +105,12 @@ export default function SettingsPage() {
         return (
             <div className={styles.welcome}>
                 <div className={styles.welcomeCard}>
-                    <h1 className={styles.welcomeTitle}>⚙️ 設定</h1>
+                    <GearSix size={48} className="text-muted mb-4" />
+                    <h1 className={styles.welcomeTitle}>設定</h1>
                     <p className={styles.welcomeText}>
-                        設定を変更するには、ログインしてください。
+                        設定を変更するにはログインしてください
                     </p>
-                    <button onClick={() => signIn('google')} className="btn btn-primary">
+                    <button onClick={() => signIn('google')} className="btn btn-primary btn-block">
                         Googleでログイン
                     </button>
                 </div>
@@ -120,36 +119,43 @@ export default function SettingsPage() {
     }
 
     return (
-        <div className="container">
+        <div>
             <div className={styles.hero}>
                 <h1 className={styles.title}>⚙️ 設定</h1>
-                <p className={styles.subtitle}>アプリケーションの設定を管理</p>
+                <p className={styles.subtitle}>アプリの設定を管理</p>
             </div>
 
             {message && (
                 <div className={`card ${styles.message}`}>
-                    <p>✅ {message}</p>
+                    <p>✓ {message}</p>
                 </div>
             )}
 
             {error && (
                 <div className={`card ${styles.errorMessage}`}>
                     <p>⚠️ {error}</p>
-                    <button onClick={loadFolders} className="btn btn-secondary">
+                    <button onClick={loadFolders} className="btn btn-outline btn-sm">
                         再読み込み
                     </button>
                 </div>
             )}
 
             {/* Google Drive Settings */}
-            <div className="card fade-in">
-                <h2 className={styles.sectionTitle}>📁 Google Drive設定</h2>
+            <div className="card mb-4 fade-in">
+                <h2 className={styles.sectionTitle}>
+                    <Folder size={20} />
+                    Google Drive設定
+                </h2>
+                <p className={styles.sectionHint}>
+                    文字起こしファイルの保存先フォルダを設定します。
+                    未設定の場合はマイドライブに保存されます。
+                </p>
 
                 <div className={styles.setting}>
                     <label className={styles.label}>保存先フォルダ</label>
                     {loadingFolders ? (
                         <div className={styles.loadingContainer}>
-                            <div className="loading"></div>
+                            <div className="loading-spinner"></div>
                             <span>フォルダを読み込み中...</span>
                         </div>
                     ) : (
@@ -166,15 +172,15 @@ export default function SettingsPage() {
                             ))}
                         </select>
                     )}
-                    <p className={styles.hint}>
-                        文字起こしファイルの保存先を選択してください
-                    </p>
                 </div>
             </div>
 
             {/* Create Folder */}
-            <div className="card fade-in">
+            <div className="card mb-4 fade-in">
                 <h2 className={styles.sectionTitle}>➕ 新しいフォルダを作成</h2>
+                <p className={styles.sectionHint}>
+                    Google Driveに新しいフォルダを作成できます。
+                </p>
 
                 <div className={styles.setting}>
                     <label className={styles.label}>フォルダ名</label>
@@ -210,20 +216,23 @@ export default function SettingsPage() {
                     disabled={loading}
                     className="btn btn-primary"
                 >
-                    {loading ? '作成中...' : '📁 フォルダを作成'}
+                    {loading ? '作成中...' : 'フォルダを作成'}
                 </button>
             </div>
 
             {/* Account Settings */}
             <div className="card fade-in">
-                <h2 className={styles.sectionTitle}>👤 アカウント</h2>
+                <h2 className={styles.sectionTitle}>
+                    <User size={20} />
+                    アカウント
+                </h2>
 
                 <div className={styles.setting}>
                     <label className={styles.label}>ログイン中</label>
                     <p className={styles.accountInfo}>{session.user?.email}</p>
                 </div>
 
-                <button onClick={() => signOut()} className="btn btn-danger">
+                <button onClick={() => signOut()} className="btn btn-danger btn-block">
                     ログアウト
                 </button>
             </div>

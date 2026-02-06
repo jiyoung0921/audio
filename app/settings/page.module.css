@@ -1,94 +1,102 @@
+/* =========================================
+   Settings Page - Warm Minimalist
+   ========================================= */
+
 .hero {
     text-align: center;
-    margin-bottom: 40px;
-    padding-top: 40px;
+    margin-bottom: var(--space-6);
 }
 
 .title {
-    font-size: 42px;
+    font-size: 24px;
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
 }
 
 .subtitle {
-    font-size: 18px;
-    color: var(--text-secondary);
+    font-size: 15px;
+    color: var(--text-muted);
 }
 
+/* Section */
 .sectionTitle {
-    font-size: 24px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 20px;
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.sectionHint {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+    line-height: 1.6;
 }
 
 .setting {
-    margin-bottom: 25px;
+    margin-bottom: var(--space-5);
 }
 
 .label {
     display: block;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
 }
 
 .hint {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-top: 8px;
-    font-style: italic;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: var(--space-2);
 }
 
+/* Account Info */
 .accountInfo {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--text-primary);
-    padding: 12px;
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    margin-bottom: 15px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--gray-100);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--space-4);
+    font-weight: 600;
 }
 
+/* Messages */
 .message {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: var(--success);
     color: white;
     text-align: center;
+    margin-bottom: var(--space-4);
     animation: slideDown 0.3s ease;
+}
+
+.message p {
+    font-weight: 700;
 }
 
 .errorMessage {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: white;
+    background: rgba(255, 107, 107, 0.1);
+    border: 2px solid var(--danger);
+    color: var(--danger);
     text-align: center;
+    margin-bottom: var(--space-4);
     animation: slideDown 0.3s ease;
 }
 
-.errorMessage button {
-    margin-top: 10px;
-}
-
-.loadingContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px;
-    background: var(--bg-secondary);
-    border-radius: 8px;
-}
-
-.loadingContainer span {
-    color: var(--text-secondary);
+.errorMessage p {
+    font-weight: 700;
+    margin-bottom: var(--space-3);
 }
 
 @keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-10px);
     }
 
     to {
@@ -97,67 +105,76 @@
     }
 }
 
+/* Loading */
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--gray-100);
+    border-radius: var(--border-radius-md);
+}
+
+.loadingContainer span {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
 .loading {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 60vh;
-    gap: 20px;
+    gap: var(--space-4);
 }
 
+/* Welcome (Not Logged In) */
 .welcome {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
-    padding: 20px;
+    min-height: 60vh;
+    padding: var(--space-5);
 }
 
 .welcomeCard {
-    background: white;
-    border-radius: 20px;
-    padding: 60px 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    padding: var(--space-8) var(--space-6);
+    box-shadow: var(--shadow-lg);
     text-align: center;
-    max-width: 500px;
+    max-width: 400px;
 }
 
 .welcomeTitle {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 20px;
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
 }
 
 .welcomeText {
-    font-size: 18px;
-    color: var(--text-secondary);
-    margin-bottom: 30px;
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-5);
     line-height: 1.6;
 }
 
-@media (max-width: 768px) {
+/* =========================================
+   Responsive
+   ========================================= */
+
+@media (max-width: 480px) {
     .title {
-        font-size: 32px;
-    }
-
-    .subtitle {
-        font-size: 16px;
-    }
-
-    .sectionTitle {
-        font-size: 20px;
+        font-size: 22px;
     }
 
     .welcomeCard {
-        padding: 40px 30px;
+        padding: var(--space-6) var(--space-5);
     }
 
     .welcomeTitle {
-        font-size: 28px;
+        font-size: 24px;
     }
 }

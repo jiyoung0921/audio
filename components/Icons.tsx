@@ -15,23 +15,25 @@ const defaultProps: IconProps = {
     weight: 'regular',
 };
 
-// Microphone Icon
+// Microphone Icon - Premium Design
 export function Microphone({ size = 24, color = 'currentColor', weight = 'regular', className }: IconProps) {
-    const strokeWidth = weight === 'thin' ? 1 : weight === 'light' ? 1.5 : weight === 'bold' ? 2.5 : 2;
+    const strokeWidth = weight === 'thin' ? 1.5 : weight === 'light' ? 2 : weight === 'bold' ? 3 : 2.5;
 
     if (weight === 'fill') {
         return (
             <svg className={className} width={size} height={size} viewBox="0 0 256 256" fill={color}>
-                <path d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V232a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z" />
+                <path d="M128,24a40,40,0,0,0-40,40v64a40,40,0,0,0,80,0V64A40,40,0,0,0,128,24Z" />
+                <path d="M200,128a8,8,0,0,0-16,0,56,56,0,0,1-112,0,8,8,0,0,0-16,0,72.08,72.08,0,0,0,64,71.54V224H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V199.54A72.08,72.08,0,0,0,200,128Z" />
             </svg>
         );
     }
 
     return (
         <svg className={className} width={size} height={size} viewBox="0 0 256 256" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
-            <rect x="88" y="24" width="80" height="144" rx="40" />
+            <rect x="88" y="24" width="80" height="136" rx="40" ry="40" />
+            <path d="M200,128a72,72,0,0,1-144,0" />
             <line x1="128" y1="200" x2="128" y2="232" />
-            <path d="M199.6,136a72,72,0,0,1-143.2,0" />
+            <line x1="96" y1="232" x2="160" y2="232" />
         </svg>
     );
 }
