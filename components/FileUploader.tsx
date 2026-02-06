@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Upload, Folder } from './Icons';
+import { useRef, useState } from 'react';
+import { CloudUpload, Folder } from './Icons';
 import styles from './FileUploader.module.css';
 
 interface FileUploaderProps {
@@ -10,6 +10,7 @@ interface FileUploaderProps {
 
 export default function FileUploader({ onFileSelected }: FileUploaderProps) {
     const [isDragging, setIsDragging] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -27,8 +28,6 @@ export default function FileUploader({ onFileSelected }: FileUploaderProps) {
         const file = e.dataTransfer.files[0];
         if (file && file.type.startsWith('audio/')) {
             onFileSelected(file);
-        } else {
-            alert('音声ファイルを選択してください');
         }
     };
 
@@ -40,33 +39,35 @@ export default function FileUploader({ onFileSelected }: FileUploaderProps) {
     };
 
     return (
-        <div className={styles.container}>
-            <div
-                className={`${styles.dropzone} ${isDragging ? styles.dragging : ''}`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-            >
-                <div className={styles.iconWrapper}>
-                    <Upload size={32} />
+        <div
+            className={`${styles.dropzone} ${isDragging ? styles.dragging : ''}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept="audio/*,video/*,.mp3,.m4a,.wav,.ogg,.webm,.mp4,.aac,*/*"
+                onChange={handleFileChange}
+                className={styles.fileInput}
+            />
+
+            <div className={styles.content}>
+                <div className={styles.icon}>
+                    <CloudUpload size={40} color="var(--primary)" />
                 </div>
-                <p className={styles.title}>ファイルをアップロード</p>
-                <p className={styles.subtitle}>ドラッグ&ドロップ または</p>
-
-                <label className={`btn btn-outline ${styles.selectBtn}`}>
+                <p className={styles.title}>ファイルをドラッグ＆ドロップ</p>
+                <p className={styles.hint}>または</p>
+                <button
+                    type="button"
+                    className={styles.selectButton}
+                    onClick={() => fileInputRef.current?.click()}
+                >
                     <Folder size={18} />
-                    ファイルを選択
-                    <input
-                        type="file"
-                        accept="audio/*,video/*,.mp3,.m4a,.wav,.ogg,.webm,.mp4,.aac,*/*"
-                        onChange={handleFileChange}
-                        className={styles.hiddenInput}
-                    />
-                </label>
-
-                <p className={styles.formats}>
-                    MP3, M4A, WAV, OGG, WebM
-                </p>
+                    <span>ファイルを選択</span>
+                </button>
+                <p className={styles.formats}>MP3, M4A, WAV, WebM, MP4</p>
             </div>
         </div>
     );

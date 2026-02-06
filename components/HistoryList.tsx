@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { HistoryItem } from '@/types';
+import { MusicNote, Document, Trash, Pencil, Check, X, ExternalLink, Inbox } from './Icons';
 import styles from './HistoryList.module.css';
 
 export default function HistoryList() {
@@ -81,7 +82,6 @@ export default function HistoryList() {
 
             const data = await response.json();
             if (data.success) {
-                // Update local state
                 setItems(
                     items.map((i) =>
                         i.id === item.id ? { ...i, filename: editingName } : i
@@ -101,8 +101,7 @@ export default function HistoryList() {
     if (loading) {
         return (
             <div className={styles.loading}>
-                <div className="loading"></div>
-                <p>読み込み中...</p>
+                <div className="loading-spinner"></div>
             </div>
         );
     }
@@ -110,8 +109,9 @@ export default function HistoryList() {
     if (items.length === 0) {
         return (
             <div className={styles.empty}>
-                <div className={styles.emptyIcon}>📭</div>
+                <Inbox size={48} color="var(--text-muted)" />
                 <p>履歴がありません</p>
+                <span>録音またはアップロードすると、ここに表示されます</span>
             </div>
         );
     }
@@ -121,61 +121,65 @@ export default function HistoryList() {
             {items.map((item) => (
                 <div key={item.id} className={styles.item}>
                     <div className={styles.itemHeader}>
+                        <div className={styles.fileIcon}>
+                            <MusicNote size={20} color="var(--primary)" />
+                        </div>
+
                         {editingId === item.id ? (
                             <div className={styles.editContainer}>
                                 <input
                                     type="text"
                                     value={editingName}
                                     onChange={(e) => setEditingName(e.target.value)}
-                                    className={`input ${styles.editInput}`}
+                                    className={styles.editInput}
                                     autoFocus
                                 />
                                 <button
                                     onClick={() => saveRename(item)}
-                                    className="btn btn-success"
-                                    title="保存"
+                                    className={styles.editAction}
+                                    aria-label="保存"
                                 >
-                                    ✓
+                                    <Check size={18} color="var(--success)" />
                                 </button>
                                 <button
                                     onClick={cancelEditing}
-                                    className="btn btn-secondary"
-                                    title="キャンセル"
+                                    className={styles.editAction}
+                                    aria-label="キャンセル"
                                 >
-                                    ✗
+                                    <X size={18} color="var(--text-muted)" />
                                 </button>
                             </div>
                         ) : (
-                            <>
+                            <div className={styles.fileInfo}>
                                 <h3 className={styles.filename}>
-                                    🎵 {item.filename}
+                                    {item.filename}
                                     <button
                                         onClick={() => startEditing(item)}
                                         className={styles.editButton}
-                                        title="名前を変更"
+                                        aria-label="名前を変更"
                                     >
-                                        ✏️
+                                        <Pencil size={14} />
                                     </button>
                                 </h3>
                                 <span className={styles.date}>
                                     {new Date(item.createdAt).toLocaleString('ja-JP')}
                                 </span>
-                            </>
+                            </div>
                         )}
                     </div>
 
                     <div className={styles.itemBody}>
-                        <div className={styles.info}>
-                            <span className={styles.badge}>{item.fileType}</span>
+                        <div className={styles.meta}>
+                            <span className={styles.badge}>{item.fileType.split('/')[1] || item.fileType}</span>
                             <span className={styles.size}>
                                 {(item.fileSize / 1024 / 1024).toFixed(2)} MB
                             </span>
                         </div>
 
-                        <div className={styles.transcription}>
-                            {item.transcriptionText.substring(0, 200)}
-                            {item.transcriptionText.length > 200 && '...'}
-                        </div>
+                        <p className={styles.transcription}>
+                            {item.transcriptionText.substring(0, 150)}
+                            {item.transcriptionText.length > 150 && '...'}
+                        </p>
                     </div>
 
                     <div className={styles.itemFooter}>
@@ -183,15 +187,18 @@ export default function HistoryList() {
                             href={item.docxFileUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn btn-primary"
+                            className={styles.openButton}
                         >
-                            📄 DOCXを開く
+                            <Document size={18} />
+                            <span>DOCX</span>
+                            <ExternalLink size={14} />
                         </a>
                         <button
                             onClick={() => handleDelete(item.id)}
-                            className="btn btn-danger"
+                            className={styles.deleteButton}
+                            aria-label="削除"
                         >
-                            🗑 削除
+                            <Trash size={18} />
                         </button>
                     </div>
                 </div>

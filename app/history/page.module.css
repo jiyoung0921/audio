@@ -1,29 +1,38 @@
+/* =========================================
+   History Page
+   ========================================= */
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
 .hero {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: var(--space-5);
+}
+
+.iconWrapper {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto var(--space-3);
+    background: rgba(0, 201, 167, 0.1);
+    border-radius: var(--border-radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
-    font-size: 42px;
-    font-weight: 800;
-    background: linear-gradient(135deg, white 0%, rgba(255, 255, 255, 0.8) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
 }
 
 .subtitle {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.loading {
-    min-height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    color: white;
+    font-size: 15px;
+    color: var(--text-muted);
 }

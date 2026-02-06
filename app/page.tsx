@@ -6,7 +6,7 @@ import AudioRecorder from '@/components/AudioRecorder';
 import FileUploader from '@/components/FileUploader';
 import ProgressModal from '@/components/ProgressModal';
 import { ProcessingStatus, ErrorDetail } from '@/types';
-import { CheckCircle } from '@/components/Icons';
+import { Microphone, CloudUpload, CheckCircle } from '@/components/Icons';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -29,7 +29,6 @@ export default function Home() {
         setError(undefined);
 
         try {
-            // Step 1: Upload
             setProcessingStatus({
                 step: 'upload',
                 progress: 10,
@@ -49,24 +48,16 @@ export default function Home() {
             if (!uploadData.success) {
                 throw {
                     code: 'ERR_UPLOAD',
-                    message: uploadData.error || 'ファイルのアップロードに失敗しました',
+                    message: uploadData.error || 'アップロードに失敗しました',
                 };
             }
 
             setProcessingStatus({
-                step: 'upload',
-                progress: 25,
-                message: 'アップロード完了',
-            });
-
-            // Step 2: Transcribe
-            setProcessingStatus({
                 step: 'transcribe',
                 progress: 30,
-                message: 'Gemini 2.5 Flashで文字起こし中...',
+                message: 'AIが文字起こし中...',
             });
 
-            // Get selected folder ID from localStorage
             const selectedFolderId = localStorage.getItem('selectedDriveFolderId') || '';
 
             const transcribeResponse = await fetch('/api/transcribe', {
@@ -91,30 +82,9 @@ export default function Home() {
             }
 
             setProcessingStatus({
-                step: 'transcribe',
-                progress: 50,
-                message: '文字起こし完了',
-            });
-
-            // Step 3: DOCX (already done in transcribe API)
-            setProcessingStatus({
-                step: 'docx',
-                progress: 75,
-                message: 'DOCXファイル生成完了',
-            });
-
-            // Step 4: Drive (already done in transcribe API)
-            setProcessingStatus({
-                step: 'drive',
-                progress: 90,
-                message: 'Google Driveへ保存完了',
-            });
-
-            // Complete
-            setProcessingStatus({
                 step: 'complete',
                 progress: 100,
-                message: '全ての処理が完了しました',
+                message: '完了！',
             });
 
             setResult({
@@ -122,21 +92,17 @@ export default function Home() {
                 docxUrl: transcribeData.docxUrl,
             });
 
-            // Auto-close modal after 2 seconds
             setTimeout(() => {
                 setIsProcessing(false);
             }, 2000);
         } catch (err: any) {
             console.error('Processing error:', err);
 
-            const errorDetail: ErrorDetail = {
+            setError({
                 code: err.code || 'ERR_UNKNOWN',
                 message: err.message || '不明なエラーが発生しました',
-                stack: err.stack,
                 timestamp: new Date().toISOString(),
-            };
-
-            setError(errorDetail);
+            });
             setProcessingStatus({
                 step: 'error',
                 progress: 0,
@@ -145,16 +111,10 @@ export default function Home() {
         }
     };
 
-    const closeModal = () => {
-        setIsProcessing(false);
-        setError(undefined);
-    };
-
     if (status === 'loading') {
         return (
             <div className={styles.loading}>
                 <div className="loading-spinner"></div>
-                <p>読み込み中...</p>
             </div>
         );
     }
@@ -162,25 +122,25 @@ export default function Home() {
     if (!session) {
         return (
             <div className={styles.welcome}>
-                <div className={styles.welcomeIcon}>🎤</div>
+                <div className={styles.welcomeIcon}>
+                    <Microphone size={64} weight="fill" />
+                </div>
                 <h1 className={styles.welcomeTitle}>VoiceDoc</h1>
                 <p className={styles.welcomeText}>
-                    音声を録音またはアップロードして、
-                    <br />
-                    AIが自動で文字起こしを行います
+                    音声をAIが自動で文字起こし
                 </p>
                 <div className={styles.welcomeFeatures}>
                     <div className={styles.feature}>
-                        <span>🎙</span>
+                        <Microphone size={24} />
                         <span>録音</span>
                     </div>
                     <div className={styles.feature}>
-                        <span>📄</span>
-                        <span>文字起こし</span>
+                        <CloudUpload size={24} />
+                        <span>アップロード</span>
                     </div>
                     <div className={styles.feature}>
-                        <span>☁️</span>
-                        <span>Drive保存</span>
+                        <CheckCircle size={24} weight="fill" />
+                        <span>文字起こし</span>
                     </div>
                 </div>
                 <p className={styles.welcomeHint}>
@@ -196,13 +156,19 @@ export default function Home() {
                 isOpen={isProcessing}
                 status={processingStatus}
                 error={error}
-                onClose={closeModal}
+                onClose={() => {
+                    setIsProcessing(false);
+                    setError(undefined);
+                }}
             />
 
             <div className={styles.page}>
-                {/* Section: Record */}
+                {/* Recording Section */}
                 <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>🎙 録音</h2>
+                    <div className={styles.sectionHeader}>
+                        <Microphone size={20} />
+                        <h2>録音</h2>
+                    </div>
                     <div className={styles.card}>
                         <AudioRecorder
                             onRecordingComplete={(blob, filename) =>
@@ -217,9 +183,12 @@ export default function Home() {
                     <span>または</span>
                 </div>
 
-                {/* Section: Upload */}
+                {/* Upload Section */}
                 <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>📁 ファイルアップロード</h2>
+                    <div className={styles.sectionHeader}>
+                        <CloudUpload size={20} />
+                        <h2>ファイルアップロード</h2>
+                    </div>
                     <FileUploader
                         onFileSelected={(file) => handleFileProcess(file, file.name)}
                     />
@@ -233,7 +202,6 @@ export default function Home() {
                             <h2>完了しました！</h2>
                         </div>
                         <div className={styles.transcriptionBox}>
-                            <h4>文字起こし結果</h4>
                             <p>{result.transcription}</p>
                         </div>
                         <a
@@ -242,7 +210,7 @@ export default function Home() {
                             rel="noopener noreferrer"
                             className="btn btn-primary btn-block"
                         >
-                            📄 Google DriveでDOCXを開く
+                            Google Driveで開く
                         </a>
                     </section>
                 )}

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { generateFilename } from '@/lib/utils';
-import { Microphone, Play, Pause, Stop } from './Icons';
+import { Microphone, StopCircle, PauseCircle, PlayCircle } from './Icons';
 import styles from './AudioRecorder.module.css';
 
 interface AudioRecorderProps {
@@ -97,60 +97,70 @@ export default function AudioRecorder({ onRecordingComplete }: AudioRecorderProp
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
+    // Not recording state - show large mic button
+    if (!isRecording) {
+        return (
+            <div className={styles.recorder}>
+                <button className={styles.mainButton} onClick={startRecording}>
+                    <Microphone size={48} weight="fill" />
+                </button>
+                <p className={styles.hint}>タップして録音開始</p>
+            </div>
+        );
+    }
+
+    // Recording state - Apple Voice Memos style
     return (
         <div className={styles.recorder}>
-            {/* Main Recording Button */}
-            <button
-                className={`${styles.recordButton} ${isRecording ? styles.recording : ''}`}
-                onClick={isRecording ? stopRecording : startRecording}
-            >
-                {isRecording ? (
-                    <Stop size={48} weight="fill" />
-                ) : (
-                    <Microphone size={48} weight="fill" />
-                )}
-            </button>
+            {/* Waveform visualization */}
+            <div className={styles.waveformArea}>
+                <div className={`${styles.waveform} ${isPaused ? styles.paused : ''}`}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
 
             {/* Timer */}
-            {isRecording && (
-                <div className={styles.timer}>
-                    <span className={styles.timerDot}></span>
-                    {formatTime(recordingTime)}
-                </div>
-            )}
+            <div className={styles.timer}>
+                {isPaused && <span className={styles.pausedLabel}>一時停止中</span>}
+                <span className={styles.time}>{formatTime(recordingTime)}</span>
+            </div>
 
-            {/* Hint Text */}
-            {!isRecording && (
-                <p className={styles.hint}>タップして録音開始</p>
-            )}
-
-            {/* Control Buttons (visible when recording) */}
-            {isRecording && (
-                <div className={styles.controls}>
-                    {!isPaused ? (
-                        <button onClick={pauseRecording} className="btn btn-outline">
-                            <Pause size={20} />
-                            一時停止
-                        </button>
+            {/* Controls - Apple Voice Memos style */}
+            <div className={styles.controls}>
+                {/* Left: Pause/Resume */}
+                <button
+                    className={styles.controlButton}
+                    onClick={isPaused ? resumeRecording : pauseRecording}
+                    aria-label={isPaused ? '再開' : '一時停止'}
+                >
+                    {isPaused ? (
+                        <PlayCircle size={56} color="var(--primary)" />
                     ) : (
-                        <button onClick={resumeRecording} className="btn btn-primary">
-                            <Play size={20} />
-                            再開
-                        </button>
+                        <PauseCircle size={56} color="var(--text-muted)" />
                     )}
-                </div>
-            )}
+                </button>
 
-            {/* Waveform Animation */}
-            {isRecording && !isPaused && (
-                <div className={styles.waveform}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            )}
+                {/* Right: Stop */}
+                <button
+                    className={styles.controlButton}
+                    onClick={stopRecording}
+                    aria-label="停止"
+                >
+                    <StopCircle size={56} color="var(--danger)" />
+                </button>
+            </div>
+
+            {/* Labels below buttons */}
+            <div className={styles.controlLabels}>
+                <span>{isPaused ? '再開' : '一時停止'}</span>
+                <span>完了</span>
+            </div>
         </div>
     );
 }

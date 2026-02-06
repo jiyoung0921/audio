@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import HistoryList from '@/components/HistoryList';
+import { Clock } from '@/components/Icons';
 import styles from './page.module.css';
 
 export default function HistoryPage() {
@@ -19,8 +20,7 @@ export default function HistoryPage() {
     if (status === 'loading') {
         return (
             <div className={styles.loading}>
-                <div className="loading"></div>
-                <p>読み込み中...</p>
+                <div className="loading-spinner"></div>
             </div>
         );
     }
@@ -30,11 +30,14 @@ export default function HistoryPage() {
     }
 
     return (
-        <div className="container">
+        <div>
             <div className={styles.hero}>
-                <h1 className={styles.title}>📚 履歴</h1>
+                <div className={styles.iconWrapper}>
+                    <Clock size={28} color="var(--primary)" />
+                </div>
+                <h1 className={styles.title}>履歴</h1>
                 <p className={styles.subtitle}>
-                    これまでに録音・アップロードしたファイルの履歴
+                    録音・アップロードしたファイル
                 </p>
             </div>
 

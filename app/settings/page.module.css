@@ -1,15 +1,33 @@
 /* =========================================
-   Settings Page - Warm Minimalist
+   Settings Page - Apple Style
    ========================================= */
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
 
 .hero {
     text-align: center;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-5);
+}
+
+.iconWrapper {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto var(--space-3);
+    background: rgba(0, 201, 167, 0.1);
+    border-radius: var(--border-radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
     font-size: 24px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--text-primary);
     margin-bottom: var(--space-2);
 }
@@ -20,32 +38,39 @@
 }
 
 /* Section */
-.sectionTitle {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--space-4);
+.sectionHeader {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.sectionTitle {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
 }
 
 .sectionHint {
     font-size: 14px;
     color: var(--text-muted);
     margin-bottom: var(--space-4);
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
+/* Settings */
 .setting {
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-4);
 }
 
 .label {
     display: block;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: var(--space-2);
 }
 
@@ -55,15 +80,14 @@
     margin-top: var(--space-2);
 }
 
-/* Account Info */
 .accountInfo {
     font-size: 15px;
     color: var(--text-primary);
     padding: var(--space-3) var(--space-4);
-    background: var(--gray-100);
+    background: var(--gray-50);
     border-radius: var(--border-radius-md);
-    margin-bottom: var(--space-4);
-    font-weight: 600;
+    margin: 0;
+    font-weight: 500;
 }
 
 /* Messages */
@@ -72,61 +96,44 @@
     color: white;
     text-align: center;
     margin-bottom: var(--space-4);
-    animation: slideDown 0.3s ease;
 }
 
 .message p {
-    font-weight: 700;
+    margin: 0;
+    font-weight: 600;
 }
 
 .errorMessage {
     background: rgba(255, 107, 107, 0.1);
-    border: 2px solid var(--danger);
-    color: var(--danger);
+    border: 1px solid var(--danger);
     text-align: center;
     margin-bottom: var(--space-4);
-    animation: slideDown 0.3s ease;
 }
 
 .errorMessage p {
-    font-weight: 700;
-    margin-bottom: var(--space-3);
+    color: var(--danger);
+    font-weight: 600;
+    margin: 0 0 var(--space-3);
 }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.errorMessage button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
 }
 
-/* Loading */
 .loadingContainer {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    padding: var(--space-4);
-    background: var(--gray-100);
+    padding: var(--space-3);
+    background: var(--gray-50);
     border-radius: var(--border-radius-md);
 }
 
 .loadingContainer span {
     color: var(--text-muted);
-    font-weight: 600;
-}
-
-.loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    gap: var(--space-4);
+    font-size: 14px;
 }
 
 /* Welcome (Not Logged In) */
@@ -144,37 +151,19 @@
     padding: var(--space-8) var(--space-6);
     box-shadow: var(--shadow-lg);
     text-align: center;
-    max-width: 400px;
+    max-width: 360px;
 }
 
 .welcomeTitle {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 24px;
+    font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
 }
 
 .welcomeText {
     font-size: 15px;
     color: var(--text-muted);
     margin-bottom: var(--space-5);
-    line-height: 1.6;
-}
-
-/* =========================================
-   Responsive
-   ========================================= */
-
-@media (max-width: 480px) {
-    .title {
-        font-size: 22px;
-    }
-
-    .welcomeCard {
-        padding: var(--space-6) var(--space-5);
-    }
-
-    .welcomeTitle {
-        font-size: 24px;
-    }
+    line-height: 1.5;
 }

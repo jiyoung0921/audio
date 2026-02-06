@@ -3,7 +3,7 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { DriveFolder } from '@/types';
-import { Folder, GearSix, User } from '@/components/Icons';
+import { Folder, Gear, User, Plus, Refresh } from '@/components/Icons';
 import styles from './page.module.css';
 
 export default function SettingsPage() {
@@ -105,7 +105,9 @@ export default function SettingsPage() {
         return (
             <div className={styles.welcome}>
                 <div className={styles.welcomeCard}>
-                    <GearSix size={48} className="text-muted mb-4" />
+                    <div className={styles.iconWrapper}>
+                        <Gear size={32} color="var(--text-muted)" />
+                    </div>
                     <h1 className={styles.welcomeTitle}>設定</h1>
                     <p className={styles.welcomeText}>
                         設定を変更するにはログインしてください
@@ -121,20 +123,24 @@ export default function SettingsPage() {
     return (
         <div>
             <div className={styles.hero}>
-                <h1 className={styles.title}>⚙️ 設定</h1>
+                <div className={styles.iconWrapper}>
+                    <Gear size={28} color="var(--primary)" />
+                </div>
+                <h1 className={styles.title}>設定</h1>
                 <p className={styles.subtitle}>アプリの設定を管理</p>
             </div>
 
             {message && (
                 <div className={`card ${styles.message}`}>
-                    <p>✓ {message}</p>
+                    <p>{message}</p>
                 </div>
             )}
 
             {error && (
                 <div className={`card ${styles.errorMessage}`}>
-                    <p>⚠️ {error}</p>
-                    <button onClick={loadFolders} className="btn btn-outline btn-sm">
+                    <p>{error}</p>
+                    <button onClick={loadFolders} className="btn btn-outline">
+                        <Refresh size={16} />
                         再読み込み
                     </button>
                 </div>
@@ -142,13 +148,12 @@ export default function SettingsPage() {
 
             {/* Google Drive Settings */}
             <div className="card mb-4 fade-in">
-                <h2 className={styles.sectionTitle}>
-                    <Folder size={20} />
-                    Google Drive設定
-                </h2>
+                <div className={styles.sectionHeader}>
+                    <Folder size={20} color="var(--primary)" />
+                    <h2 className={styles.sectionTitle}>Google Drive設定</h2>
+                </div>
                 <p className={styles.sectionHint}>
                     文字起こしファイルの保存先フォルダを設定します。
-                    未設定の場合はマイドライブに保存されます。
                 </p>
 
                 <div className={styles.setting}>
@@ -177,7 +182,10 @@ export default function SettingsPage() {
 
             {/* Create Folder */}
             <div className="card mb-4 fade-in">
-                <h2 className={styles.sectionTitle}>➕ 新しいフォルダを作成</h2>
+                <div className={styles.sectionHeader}>
+                    <Plus size={20} color="var(--primary)" />
+                    <h2 className={styles.sectionTitle}>新しいフォルダを作成</h2>
+                </div>
                 <p className={styles.sectionHint}>
                     Google Driveに新しいフォルダを作成できます。
                 </p>
@@ -222,10 +230,10 @@ export default function SettingsPage() {
 
             {/* Account Settings */}
             <div className="card fade-in">
-                <h2 className={styles.sectionTitle}>
-                    <User size={20} />
-                    アカウント
-                </h2>
+                <div className={styles.sectionHeader}>
+                    <User size={20} color="var(--primary)" />
+                    <h2 className={styles.sectionTitle}>アカウント</h2>
+                </div>
 
                 <div className={styles.setting}>
                     <label className={styles.label}>ログイン中</label>

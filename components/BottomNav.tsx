@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { House, Microphone, ClockCounterClockwise, GearSix } from './Icons';
+import { House, Clock, Gear } from './Icons';
 import styles from './BottomNav.module.css';
 
 interface NavItem {
@@ -13,9 +13,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     { href: '/', label: 'ホーム', icon: House },
-    { href: '/record', label: '録音', icon: Microphone },
-    { href: '/history', label: '履歴', icon: ClockCounterClockwise },
-    { href: '/settings', label: '設定', icon: GearSix },
+    { href: '/history', label: '履歴', icon: Clock },
+    { href: '/settings', label: '設定', icon: Gear },
 ];
 
 export default function BottomNav() {

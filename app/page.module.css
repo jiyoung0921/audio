@@ -1,20 +1,12 @@
 /* =========================================
-   Home Page - Warm Minimalist
+   Home Page - Apple Style
    ========================================= */
 
-/* Loading State */
 .loading {
-    min-height: 60vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: var(--space-4);
-}
-
-.loading p {
-    font-weight: 600;
-    color: var(--text-secondary);
+    align-items: center;
+    min-height: 60vh;
 }
 
 /* =========================================
@@ -32,22 +24,28 @@
 }
 
 .welcomeIcon {
-    font-size: 72px;
-    margin-bottom: var(--space-4);
-    animation: bounce 2s infinite;
+    width: 120px;
+    height: 120px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, #00C9A7 0%, #00A389 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: var(--space-5);
+    box-shadow: 0 8px 32px rgba(0, 201, 167, 0.3);
 }
 
 .welcomeTitle {
-    font-size: 36px;
-    font-weight: 800;
+    font-size: 32px;
+    font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-2);
 }
 
 .welcomeText {
     font-size: 16px;
-    color: var(--text-secondary);
-    line-height: 1.7;
+    color: var(--text-muted);
     margin-bottom: var(--space-6);
 }
 
@@ -62,25 +60,18 @@
     flex-direction: column;
     align-items: center;
     gap: var(--space-2);
+    color: var(--text-secondary);
 }
 
-.feature span:first-child {
-    font-size: 32px;
-}
-
-.feature span:last-child {
+.feature span {
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-muted);
 }
 
 .welcomeHint {
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--primary);
-    padding: var(--space-3) var(--space-5);
-    background: rgba(0, 201, 167, 0.1);
-    border-radius: var(--border-radius-full);
 }
 
 /* =========================================
@@ -90,7 +81,7 @@
 .page {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-5);
 }
 
 /* Section */
@@ -100,15 +91,22 @@
     gap: var(--space-3);
 }
 
-.sectionTitle {
-    font-size: 18px;
-    font-weight: 700;
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     color: var(--text-primary);
 }
 
+.sectionHeader h2 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+}
+
 .card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
     border-radius: var(--border-radius-xl);
     padding: var(--space-4);
 }
@@ -119,8 +117,10 @@
     align-items: center;
     gap: var(--space-4);
     color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .divider::before,
@@ -128,7 +128,7 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--border-color);
+    background: var(--gray-200);
 }
 
 /* =========================================
@@ -137,7 +137,7 @@
 
 .resultSection {
     background: rgba(0, 184, 148, 0.06);
-    border: 2px solid var(--success);
+    border: 1px solid var(--success);
     border-radius: var(--border-radius-xl);
     padding: var(--space-5);
 }
@@ -145,13 +145,15 @@
 .resultHeader {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2);
     margin-bottom: var(--space-4);
 }
 
 .resultHeader h2 {
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
     color: var(--success);
+    margin: 0;
 }
 
 .successIcon {
@@ -159,27 +161,19 @@
 }
 
 .transcriptionBox {
-    background: var(--bg-primary);
+    background: var(--white);
     border-radius: var(--border-radius-lg);
     padding: var(--space-4);
     margin-bottom: var(--space-4);
-    border: 1px solid var(--border-color);
-}
-
-.transcriptionBox h4 {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: var(--space-3);
+    border: 1px solid var(--gray-200);
 }
 
 .transcriptionBox p {
     font-size: 15px;
-    line-height: 1.8;
+    line-height: 1.7;
     color: var(--text-primary);
     white-space: pre-wrap;
+    margin: 0;
 }
 
 /* =========================================
@@ -192,7 +186,14 @@
     }
 
     .welcomeIcon {
-        font-size: 56px;
+        width: 96px;
+        height: 96px;
+        border-radius: 24px;
+    }
+
+    .welcomeIcon svg {
+        width: 48px;
+        height: 48px;
     }
 
     .welcomeTitle {
@@ -200,10 +201,6 @@
     }
 
     .welcomeFeatures {
-        gap: var(--space-4);
-    }
-
-    .feature span:first-child {
-        font-size: 28px;
+        gap: var(--space-5);
     }
 }
