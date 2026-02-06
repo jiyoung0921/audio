@@ -55,7 +55,7 @@ export default function FileUploader({ onFileSelected }: FileUploaderProps) {
                     📂 ファイルを選択
                     <input
                         type="file"
-                        accept="audio/*"
+                        accept="audio/*,video/*,.mp3,.m4a,.wav,.ogg,.webm,.mp4,.aac,*/*"
                         onChange={handleFileChange}
                         style={{ display: 'none' }}
                     />
